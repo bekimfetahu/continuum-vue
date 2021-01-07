@@ -1,15 +1,28 @@
 <template>
   <div id="app">
-		<router-view :key="$route.fullPath"></router-view>
+    <div id="content-wrapper">
+      <div class="container">
+        <menu-top></menu-top>
+        <div class="box" style="min-height: 700px">
+          <div class="row">
+            <div class="col-lg-12">
+              <transition name="fade">
+                <router-view :key="$route.fullPath"></router-view>
+              </transition>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-
-
+  import MenuTop from "../Components/MenuTop";
   export default {
     name: "master",
     components: {
+      MenuTop
     },
     created() {
       console.log('SERVER: ' + process.env.SERVER_API)
@@ -19,22 +32,17 @@
 
 <style lang="scss">
 
-  $body-bg: #17a2b8;
   $theme-color: #993366;
 
   #app {
     font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
     font-size: 1.1rem;
     line-height: 1.5;
-	min-height: 840px;
+	  min-height: 740px;
   }
 
   #content-wrapper {
-    background-position: bottom;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    padding: 10px;
-    min-height: 840px;
+    padding: 5px;
   }
 
   .box-title {
@@ -51,7 +59,6 @@
   }
 
   .container .box {
-    background: #fff;
     margin: 0 0 10px;
     border: solid 1px #e6e6e6;
     padding: 15px;

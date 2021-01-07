@@ -12,6 +12,16 @@ window.eventBus = new Vue()
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
+
 const router = new VueRouter({
   mode: 'history',
   routes,
