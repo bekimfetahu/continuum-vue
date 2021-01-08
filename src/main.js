@@ -6,21 +6,26 @@ import VueRouter from 'vue-router'
 import routes from "./router";
 import Master from "./layouts/Master";
 import {store} from './store/store'
+import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
+import { TablePlugin } from 'bootstrap-vue'
+import axios from 'axios'
+//setup base api for all request
+
+axios.defaults.baseURL = process.env.SERVER_API
+axios.defaults.headers.common['Accepts'] = 'application/json'
 
 window.eventBus = new Vue()
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
-
+Vue.use(TablePlugin)
 
 const router = new VueRouter({
   mode: 'history',
