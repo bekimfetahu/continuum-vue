@@ -80,7 +80,7 @@
               this.showError(response.data.error)
             } else if (response.data.success) {
               this.showSuccess(response.data.success)
-              this.resetForm()
+              this.resetForm
             }
           })
           .catch(error => {  // api server validation errors, 422
