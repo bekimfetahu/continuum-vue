@@ -12,6 +12,12 @@
         <li class="nav-item">
           <router-link :to="{name:'clients'}">Clients</router-link>
         </li>
+        <li class="nav-item">
+          <router-link :to="{name:'transactions'}">All transactions</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{name:'add_client'}">Add Client</router-link>
+        </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">

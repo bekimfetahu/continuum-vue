@@ -3,8 +3,6 @@
  */
 import axios from "axios";
 
-const apiBaseURL = process.env.SERVER_API
-
 export default {
   namespaced: true,
   state: {
@@ -76,9 +74,20 @@ export default {
     removeClient({commit, rootGetters}, clientId) {
 
       return new Promise((resolve, reject) => {
-        const route = '/clients/destroy/' + clientId
-        axios.post(route,{_method:'DELETE'}).then(response => {
-          commit('deleteClient',clientId)
+        const route = '/clients/' + clientId
+        axios.post(route, {_method: 'DELETE'}).then(response => {
+          commit('deleteClient', clientId)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    storeClient({commit, rootGetters}, data) {
+
+      return new Promise((resolve, reject) => {
+        const route = '/clients'
+        axios.post(route, data).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)
