@@ -53,7 +53,7 @@
 
 <script>
   import errors from "../lib/errors";
-  import {mapActions, mapMutations} from "vuex"
+  import {mapActions} from "vuex"
 
   export default {
     name: "EditClient",
@@ -88,7 +88,7 @@
 
             if (response.data.success) { // api custom errors (200)
               this.showSuccess(response.data.success)
-              this.resetForm
+              this.resetFile()
             } else if (response.data.error) {
               this.showError(response.data.error)
             }

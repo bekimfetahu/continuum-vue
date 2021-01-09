@@ -23,7 +23,7 @@
             </b-button>
           </template>
           <template v-slot:cell(delete)="row">
-            <b-button variant="danger" @click="deleteClient(row.item.id)">Delete</b-button>
+            <b-button variant="danger" size="sm" @click="deleteClient(row.item.id)">Delete</b-button>
           </template>
 
         </b-table>
@@ -78,11 +78,6 @@
             this.isBusy = false
             return []
           })
-      },
-      updateClient(id){
-         alert(id)
-        // let firstName = first_name+id
-        // console.log(this.$refs.firstName)
       },
       deleteClient(id) {
         this.removeClient(id)
