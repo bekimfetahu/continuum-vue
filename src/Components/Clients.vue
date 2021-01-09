@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h3 class="box-title">Clients</h3>
     <b-row>
       <b-col>
         <b-table
@@ -13,35 +14,18 @@
           :current-page="page"
           :busy.sync="isBusy"
         >
-
+          <template #cell(avatar)="data">
+            <img :src="data.value" width="20" alt="Avatar"/>
+          </template>
           <template v-slot:cell(edit)="row">
-            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+            <b-button size="sm" class="mr-2" @click="editClient(row.item.id)">
               Edit
             </b-button>
           </template>
           <template v-slot:cell(delete)="row">
             <b-button variant="danger" @click="deleteClient(row.item.id)">Delete</b-button>
           </template>
-          <template #row-details="row">
-            <b-card>
-              <b-row>
-                <b-col>
-                  First name: <input type="text" :value="row.item.first_name"/>
-                </b-col>
-                <b-col>
-                  Last name: <input type="text" :value="row.item.last_name"/>
-                </b-col>
-                <b-col>
-                  Image: <input type="file"/>
-                </b-col>
-                <b-col>
-                  <b-button size="sm" variant="info" class="update-btn" @click="updateClient">Update
-                  </b-button>
-                </b-col>
 
-              </b-row>
-            </b-card>
-          </template>
         </b-table>
         <div class="d-flex justify-content-between">
           <div>
@@ -95,8 +79,10 @@
             return []
           })
       },
-      updateClient(){
-        alert('call')
+      updateClient(id){
+         alert(id)
+        // let firstName = first_name+id
+        // console.log(this.$refs.firstName)
       },
       deleteClient(id) {
         this.removeClient(id)
@@ -106,6 +92,9 @@
           .catch(error => {
             console.log(error)
           })
+      },
+      editClient(id) {
+        this.$router.push({ name: 'edit_client',params: {id: id}})
       }
     },
     computed: {

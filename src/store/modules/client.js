@@ -10,6 +10,7 @@ export default {
     currentPage: 1,
     total: 0,
     perPage: 10,
+    avatarPath: '',
   },
 
   getters: {
@@ -25,6 +26,9 @@ export default {
     getPerPage(state) {
       return state.perPage
     },
+    getAvatarPath(state) {
+      return state.avatarPath
+    },
   },
   mutations: {
     setClients(state, clients) {
@@ -39,6 +43,9 @@ export default {
     setPerPage(state, perPage) {
       state.perPage = perPage
     },
+    setAvatarPath(state, path) {
+      state.avatarPath = path
+    },
     deleteClient(state, id) {
       state.clients.forEach((value, index) => {
         if (value.id == id) {
@@ -46,7 +53,7 @@ export default {
           return
         }
       })
-    }
+    },
   },
   actions: {
     /**
@@ -65,6 +72,7 @@ export default {
           commit('setCurrentPage', response.data.current_page)
           commit('setTotal', response.data.total)
           commit('setPerPage', response.data.per_page)
+          commit('setAvatarPath', response.data.avatar_path)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -83,11 +91,32 @@ export default {
         })
       })
     },
+    retrieveClient({commit, rootGetters}, clientId) {
+      return new Promise((resolve, reject) => {
+        const route = '/clients/' + clientId
+        axios.get(route).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     storeClient({commit, rootGetters}, data) {
 
       return new Promise((resolve, reject) => {
         const route = '/clients'
         axios.post(route, data).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    updateClient({commit, rootGetters}, post) {
+
+      return new Promise((resolve, reject) => {
+        const route = '/clients/'+post.id
+        axios.post(route, post.data).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

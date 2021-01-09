@@ -2,6 +2,7 @@ import Home from "../Components/Home";
 import Clients from "../Components/Clients";
 import Transactions from "../Components/Transactions";
 import AddClient from "../Components/AddClient";
+import EditClient from "../Components/EditClient";
 
 const routes = [
   {
@@ -19,6 +20,13 @@ const routes = [
     name: 'add_client',
     component: AddClient,
   },
+  {
+    path: '/clients/edit/:id',
+    name: 'edit_client',
+    component: EditClient,
+    props: true,
+  },
+
   {
     path: '/transactions',
     name: 'transactions',

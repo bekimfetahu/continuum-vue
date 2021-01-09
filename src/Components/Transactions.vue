@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h3 class="box-title">Clients</h3>
     <b-row>
       <b-col>
         <b-table

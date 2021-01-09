@@ -65,7 +65,10 @@
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
-
+  .center-align {
+    margin: 0 auto;
+    width: 70%;
+  }
 
   @media (max-width: 767.98px) {
     .container .box .content {
