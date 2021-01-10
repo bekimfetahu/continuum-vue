@@ -43,6 +43,11 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-9 offset-3">
+            <input type="checkbox" v-model="disableFrontCheck"> Disable frontend check
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9 offset-3">
             <button class="btn btn-info btn-block" @click="submitForm">Update</button>
           </div>
         </div>
@@ -54,19 +59,16 @@
 <script>
   import errors from "../lib/errors";
   import {mapActions} from "vuex"
+  import {clientForm} from "../lib/client-form";
 
   export default {
     name: "EditClient",
+    mixins: [clientForm],
     props: ['id'],
     data() {
       return {
-        file: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        success: '',
-        error: '',
         imgSrc: '',
+        action:'update',
       }
     },
     methods: {
@@ -75,15 +77,10 @@
         'updateClient',
       ]),
       submitForm() {
-        let formData = new FormData();
-
-        if(this.file){
-          formData.append('avatar', this.file)
+        if (!this.disableFrontCheck && !this.validForm()) {
+          return
         }
-        formData.append('first_name', this.first_name)
-        formData.append('last_name', this.last_name)
-        formData.append('email', this.email)
-        formData.append('_method', 'PATCH');
+        let formData = this.getFormData()
 
         this.updateClient({id: this.id, data: formData})
           .then(response => {
@@ -103,20 +100,9 @@
           })
       },
 
-      setFileUpload() {
-        this.file = this.$refs.file.files[0];
-      },
       resetFile() {
         this.file = ''
         this.$refs.file.value = '';
-      },
-      showError(message) {
-        this.error = message
-        setTimeout(() => this.error = '', 15000)
-      },
-      showSuccess(message) {
-        this.success = message
-        setTimeout(() => this.success = '', 5000)
       },
       setupClientData(id) {
         this.retrieveClient(id)

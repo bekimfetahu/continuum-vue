@@ -30,7 +30,7 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Avatar</label>
           <div class="col-sm-9">
-            <input type="file"  ref="file" class="form-control" @change="setFileUpload"/>
+            <input type="file" ref="file" class="form-control" @change="setFileUpload"/>
           </div>
         </div>
         <div class="form-group row">
@@ -57,20 +57,14 @@
 <script>
   import errors from "../lib/errors";
   import {mapActions} from "vuex"
+  import {clientForm} from "../lib/client-form"
 
   export default {
     name: "AddClient",
+    mixins: [clientForm],
     data() {
       return {
-        file: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        success: '',
-        error: '',
-        loading: false,
-        submitting: false,
-        disableFrontCheck:false
+        action: 'create',
       }
     },
     methods: {
@@ -84,12 +78,8 @@
         if (!this.disableFrontCheck && !this.validForm()) {
           return
         }
-        let formData = new FormData();
+        let formData = this.getFormData()
 
-        formData.append('avatar', this.file)
-        formData.append('first_name', this.first_name)
-        formData.append('last_name', this.last_name)
-        formData.append('email', this.email)
         this.loading = true
 
         this.storeClient(formData)
@@ -107,43 +97,6 @@
             this.showError(errors.getError(error))
           })
       },
-      validForm() {
-        this.submitting = true
-        if(this.first_name==''){
-          this.showError('First name is required!!')
-          this.$refs.first_name.focus()
-          return false
-        }
-        if(this.last_name==''){
-          this.showError('Last name is required!!')
-          this.$refs.last_name.focus()
-          return false
-        }
-        if(this.email==''){
-          this.showError('Email is required!!')
-          this.$refs.email.focus()
-          return false
-        }
-        if(!this.validEmail(this.email)){
-          this.showError('Enter valid email')
-          this.$refs.email.focus()
-          return false
-        }
-        if(this.file==''){
-          this.showError('Avatar is required!!')
-          this.$refs.file.focus()
-          return false
-        }
-        this.submitting = false
-        return true;
-      },
-      validEmail(email) {
-        let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-      },
-      setFileUpload() {
-        this.file = this.$refs.file.files[0];
-      },
       resetForm() {
         console.log('reset form')
         this.file = ''
@@ -152,14 +105,6 @@
         this.email = ''
         // this.$refs.file.files[0] = ''
         this.$refs.file.value = '';
-      },
-      showError(message) {
-        this.error = message
-        setTimeout(() => this.error = '', 5000)
-      },
-      showSuccess(message) {
-        this.success = message
-        setTimeout(() => this.success = '', 5000)
       }
     }
   }
