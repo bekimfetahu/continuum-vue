@@ -10,39 +10,39 @@
       </div>
       <div class="col-lg-12">
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">First name</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">First name</label>
+          <div class="col-sm-9">
             <input type="text" v-model="first_name" class="form-control" placeholder="First name">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Last name</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">Last name</label>
+          <div class="col-sm-9">
             <input type="text" v-model="last_name" class="form-control" placeholder="Last name">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
             <input type="email" v-model="email" class="form-control" placeholder="Email">
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-10 offset-2">
+          <div class="col-sm-9 offset-3">
             <img :src="imgSrc">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Avatar</label>
+          <label class="col-sm-3 col-form-label">Avatar</label>
           <div class="col-sm-6">
             <input type="file" ref="file" class="form-control" @change="setFileUpload"/>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <button class="btn btn-light btn-block" @click="resetFile">Reset</button>
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-10 offset-2">
+          <div class="col-sm-9 offset-3">
             <button class="btn btn-info btn-block" @click="submitForm">Update</button>
           </div>
         </div>
@@ -77,7 +77,9 @@
       submitForm() {
         let formData = new FormData();
 
-        formData.append('avatar', this.file)
+        if(this.file){
+          formData.append('avatar', this.file)
+        }
         formData.append('first_name', this.first_name)
         formData.append('last_name', this.last_name)
         formData.append('email', this.email)

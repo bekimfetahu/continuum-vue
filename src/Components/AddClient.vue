@@ -10,31 +10,31 @@
       </div>
       <div class="col-lg-12">
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">First name</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">First name</label>
+          <div class="col-sm-9">
             <input type="text" v-model="first_name" class="form-control" placeholder="First name">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Last name</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">Last name</label>
+          <div class="col-sm-9">
             <input type="text" v-model="last_name" class="form-control" placeholder="Last name">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
             <input type="email" v-model="email" class="form-control" placeholder="Email">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Avatar</label>
-          <div class="col-sm-10">
+          <label class="col-sm-3 col-form-label">Avatar</label>
+          <div class="col-sm-9">
             <input type="file" ref="file" class="form-control" @change="setFileUpload"/>
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-10 offset-2">
+          <div class="col-sm-9 offset-3">
             <button class="btn btn-info btn-block" @click="upload">Add client</button>
           </div>
         </div>
@@ -107,13 +107,6 @@
         setTimeout(() => this.success = '', 5000)
       }
     }
-
   }
 </script>
 
-<style scoped>
-  .center-align {
-    margin: 0 auto;
-    width: 70%;
-  }
-</style>

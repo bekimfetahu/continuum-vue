@@ -9,6 +9,7 @@ import {store} from './store/store'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import { TablePlugin } from 'bootstrap-vue'
 import axios from 'axios'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 //setup base api for all request
 
 axios.defaults.baseURL = process.env.SERVER_API
@@ -26,6 +27,16 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(TablePlugin)
+
+
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fab} from '@fortawesome/free-brands-svg-icons'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {far} from '@fortawesome/free-regular-svg-icons'
+
+library.add(fab, fas, far);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 const router = new VueRouter({
   mode: 'history',

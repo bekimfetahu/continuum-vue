@@ -20,8 +20,15 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
+        <li class="nav-item" v-if="!loggedIn">
+          <font-awesome-icon :icon="['fas', 'sign-in-alt']"/>
+          <router-link :to="{name:'login'}">Login</router-link>
+        </li>
+        <li class="nav-item" v-if="loggedIn">
+          <font-awesome-icon :icon="['fas', 'user']"/>
+          <span class="name">{{user.name}}</span>
+          <font-awesome-icon :icon="['fas', 'sign-out-alt']"/>
+          <router-link :to="{name:'logout'}">Logout</router-link>
         </li>
       </ul>
     </nav>
@@ -29,10 +36,17 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex"
   export default {
     name: "MenuTop",
+    computed: {
+     ...mapGetters('auth',[
+       'user',
+       'loggedIn'
+     ]),
+    },
     mounted() {
-      console.log('menu created')
+       console.log(this.user.name)
     }
   }
 </script>
@@ -50,17 +64,15 @@
     width: 81px;
     margin-right: 50px;
   }
-  .user {
-    margin-top:8px;
-    font-size: 16px;
+  .name {
     color: #ffffff;
+    padding-right: 10px;
   }
   .nav-item {
     padding-right:15px;
   }
-  .nav-link {
-    color:#e6e6e6!important;
-    font-size: 16px;
+  .nav-item svg, a {
+    color:white !important;
   }
 </style>
 

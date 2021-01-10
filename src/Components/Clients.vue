@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <h3 class="box-title">Clients</h3>
+    <div class="col-lg-12">
+      <div class="form-group">
+        <div class="alert alert-warning" v-if="error" v-text="error"></div>
+        <div class="alert alert-success" v-if="success" v-text="success"></div>
+      </div>
+    </div>
     <b-row>
       <b-col>
         <b-table
@@ -55,6 +61,8 @@
         fields: ["id", "first_name", "last_name", "avatar", "email", "edit", "delete"],
         page: this.getCurrentPage ? this.getCurrentPage : 1,
         isBusy: false,
+        error:'',
+        success:'',
       };
     },
     methods: {
@@ -81,8 +89,13 @@
       },
       deleteClient(id) {
         this.removeClient(id)
-          .then(result => {
+          .then(response => {
             this.$refs.clients.refresh()
+            if (response.data.success) {
+              this.showSuccess(response.data.success)
+            } else if (response.data.error) { // api custom errors (200)
+              this.showError(response.data.error)
+            }
           })
           .catch(error => {
             console.log(error)
@@ -90,7 +103,15 @@
       },
       editClient(id) {
         this.$router.push({ name: 'edit_client',params: {id: id}})
-      }
+      },
+      showError(message) {
+        this.error = message
+        setTimeout(() => this.error = '', 15000)
+      },
+      showSuccess(message) {
+        this.success = message
+        setTimeout(() => this.success = '', 5000)
+      },
     },
     computed: {
       ...mapGetters('client', [

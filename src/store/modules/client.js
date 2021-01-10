@@ -69,9 +69,9 @@ export default {
 
         axios.get(route).then(response => {
           commit('setClients', response.data.data)
-          commit('setCurrentPage', response.data.current_page)
-          commit('setTotal', response.data.total)
-          commit('setPerPage', response.data.per_page)
+          commit('setCurrentPage',response.data.pagination.current_page)
+          commit('setTotal', response.data.pagination.total)
+          commit('setPerPage', response.data.pagination.per_page)
           commit('setAvatarPath', response.data.avatar_path)
           resolve(response)
         }).catch(error => {
