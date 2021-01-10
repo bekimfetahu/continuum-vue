@@ -12,30 +12,41 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">First name</label>
           <div class="col-sm-9">
-            <input type="text" v-model="first_name" class="form-control" placeholder="First name">
+            <input type="text" ref="first_name" v-model="first_name" class="form-control" placeholder="First name">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Last name</label>
           <div class="col-sm-9">
-            <input type="text" v-model="last_name" class="form-control" placeholder="Last name">
+            <input type="text" ref="last_name" v-model="last_name" class="form-control" placeholder="Last name">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Email</label>
           <div class="col-sm-9">
-            <input type="email" v-model="email" class="form-control" placeholder="Email">
+            <input type="email" ref="email" v-model="email" class="form-control" placeholder="Email">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Avatar</label>
           <div class="col-sm-9">
-            <input type="file" ref="file" class="form-control" @change="setFileUpload"/>
+            <input type="file"  ref="file" class="form-control" @change="setFileUpload"/>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-sm-9 offset-3">
-            <button class="btn btn-info btn-block" @click="upload">Add client</button>
+            <input type="checkbox" v-model="disableFrontCheck"> Disable frontend check
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9 offset-3">
+            <button class="btn btn-info btn-block" type="button" v-if="!loading" @click="submitForm">
+              Upload
+            </button>
+            <button class="btn btn-info btn-block" type="button" disabled v-if="loading">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Loading...
+            </button>
           </div>
         </div>
       </div>
@@ -56,7 +67,10 @@
         last_name: '',
         email: '',
         success: '',
-        error: ''
+        error: '',
+        loading: false,
+        submitting: false,
+        disableFrontCheck:false
       }
     },
     methods: {
@@ -66,37 +80,78 @@
       /*
         Submits the file to the server
       */
-      upload() {
+      submitForm() {
+        if (!this.disableFrontCheck && !this.validForm()) {
+          return
+        }
         let formData = new FormData();
 
         formData.append('avatar', this.file)
         formData.append('first_name', this.first_name)
         formData.append('last_name', this.last_name)
         formData.append('email', this.email)
+        this.loading = true
 
         this.storeClient(formData)
           .then(response => {
             if (response.data.error) { // api custom errors (200)
               this.showError(response.data.error)
             } else if (response.data.success) {
+              this.resetForm()
               this.showSuccess(response.data.success)
-              this.resetForm
             }
+            this.loading = false
           })
           .catch(error => {  // api server validation errors, 422
+            this.loading = false
             this.showError(errors.getError(error))
           })
       },
-
+      validForm() {
+        this.submitting = true
+        if(this.first_name==''){
+          this.showError('First name is required!!')
+          this.$refs.first_name.focus()
+          return false
+        }
+        if(this.last_name==''){
+          this.showError('Last name is required!!')
+          this.$refs.last_name.focus()
+          return false
+        }
+        if(this.email==''){
+          this.showError('Email is required!!')
+          this.$refs.email.focus()
+          return false
+        }
+        if(!this.validEmail(this.email)){
+          this.showError('Enter valid email')
+          this.$refs.email.focus()
+          return false
+        }
+        if(this.file==''){
+          this.showError('Avatar is required!!')
+          this.$refs.file.focus()
+          return false
+        }
+        this.submitting = false
+        return true;
+      },
+      validEmail(email) {
+        let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+      },
       setFileUpload() {
         this.file = this.$refs.file.files[0];
       },
       resetForm() {
+        console.log('reset form')
         this.file = ''
         this.first_name = ''
         this.last_name = ''
         this.email = ''
-        this.$refs.file.files[0] = ''
+        // this.$refs.file.files[0] = ''
+        this.$refs.file.value = '';
       },
       showError(message) {
         this.error = message

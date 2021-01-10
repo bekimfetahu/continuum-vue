@@ -24,9 +24,6 @@
     components: {
       MenuTop
     },
-    created() {
-      console.log('SERVER: ' + process.env.SERVER_API)
-    }
   }
 </script>
 

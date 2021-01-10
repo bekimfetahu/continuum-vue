@@ -9,13 +9,13 @@
         <li class="nav-item">
           <router-link :to="{name:'home'}">Home</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="loggedIn">
           <router-link :to="{name:'clients'}">Clients</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="loggedIn">
           <router-link :to="{name:'transactions'}">All transactions</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="loggedIn">
           <router-link :to="{name:'add_client'}">Add Client</router-link>
         </li>
       </ul>
@@ -46,7 +46,7 @@
      ]),
     },
     mounted() {
-       console.log(this.user.name)
+       // console.log(this.user.name)
     }
   }
 </script>

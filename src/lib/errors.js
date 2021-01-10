@@ -1,6 +1,6 @@
 const errors = {
   getError(error) {
-     console.log(error.response)
+     console.log(error.response.data)
     switch (error.response.status) {
       case 422:
         let errors = error.response.data.errors;

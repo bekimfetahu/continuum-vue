@@ -7,7 +7,7 @@ import routes from "./router";
 import Master from "./layouts/Master";
 import {store} from './store/store'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
-import { TablePlugin } from 'bootstrap-vue'
+import {TablePlugin} from 'bootstrap-vue'
 import axios from 'axios'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 //setup base api for all request
@@ -42,6 +42,10 @@ const router = new VueRouter({
   mode: 'history',
   routes,
 })
+function loggedIn() {
+  return localStorage.getItem('access_token') !== null
+}
+
 
 /* eslint-disable no-new */
 new Vue({
