@@ -40,7 +40,7 @@ http://localhost:8080
 
 ```
 ```
-Loging:
+Login:
 user:admin@admin.com
 pass:password
 ```
