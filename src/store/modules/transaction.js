@@ -38,7 +38,15 @@ export default {
     },
     setPerPage(state, perPage) {
       state.perPage = perPage
-    }
+    },
+    deleteTransaction(state, id) {
+      state.transactions.forEach((value, index) => {
+        if (value.id == id) {
+          state.transactions.splice(index, 1);
+          return
+        }
+      })
+    },
   },
   actions: {
     /**
@@ -51,12 +59,49 @@ export default {
 
       return new Promise((resolve, reject) => {
         const route = '/transactions?page=' + page
-
-        axios.get(route).then(response => {
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.get(route,headers).then(response => {
           commit('setTransactions', response.data.data)
           commit('setCurrentPage', response.data.pagination.current_page)
           commit('setTotal', response.data.pagination.total)
           commit('setPerPage', response.data.pagination.per_page)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    removeTransaction({commit, getters, rootGetters}, transId) {
+
+      return new Promise((resolve, reject) => {
+        const route = '/transactions/' + transId
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.post(route, {_method: 'DELETE'}, headers).then(response => {
+          commit('deleteTransaction', transId)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    storeTransaction({commit, rootGetters}, data) {
+
+      return new Promise((resolve, reject) => {
+        const route = '/transactions'
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.post(route, data, headers).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

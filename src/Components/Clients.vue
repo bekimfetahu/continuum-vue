@@ -23,6 +23,11 @@
           <template #cell(avatar)="data">
             <img :src="data.value" width="20" alt="Avatar"/>
           </template>
+          <template v-slot:cell(transaction)="row">
+            <b-button size="sm" variant="primary" class="mr-2" @click="addTransaction(row.item.id)">
+              Add
+            </b-button>
+          </template>
           <template v-slot:cell(edit)="row">
             <b-button size="sm" class="mr-2" @click="editClient(row.item.id)">
               Edit
@@ -58,7 +63,7 @@
     name: "App",
     data() {
       return {
-        fields: ["id", "first_name", "last_name", "avatar", "email", "edit", "delete"],
+        fields: ["id", "first_name", "last_name", "avatar", "email","transaction", "edit", "delete"],
         page: this.getCurrentPage ? this.getCurrentPage : 1,
         isBusy: false,
         error:'',
@@ -103,6 +108,10 @@
       },
       editClient(id) {
         this.$router.push({ name: 'edit_client',params: {id: id}})
+      },
+      addTransaction(id) {
+        console.log(id);
+        this.$router.push({ name: 'add_transaction',params: {id: id}})
       },
       showError(message) {
         this.error = message

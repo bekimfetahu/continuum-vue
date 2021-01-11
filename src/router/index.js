@@ -5,6 +5,7 @@ import AddClient from "../Components/AddClient";
 import EditClient from "../Components/EditClient";
 import Login from "../Components/Login";
 import Logout from "../Components/Logout";
+import AddClientTransaction from "../Components/AddClientTransaction";
 
 function guard(to, from, next) {
   if (localStorage.getItem('access_token') !== null) {
@@ -42,6 +43,13 @@ const routes = [
     path: '/clients/add',
     name: 'add_client',
     component: AddClient,
+    beforeEnter : guard,
+  },
+  {
+    path: '/clients/transactions/:id',
+    name: 'add_transaction',
+    component: AddClientTransaction,
+    props: true,
     beforeEnter : guard,
   },
   {

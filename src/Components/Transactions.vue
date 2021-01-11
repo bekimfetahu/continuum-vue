@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <h3 class="box-title">Clients</h3>
+    <h3 class="box-title">Client transactions</h3>
+    <div class="form-group">
+      <div class="alert alert-warning" v-if="error" v-text="error"></div>
+      <div class="alert alert-success" v-if="success" v-text="success"></div>
+    </div>
     <b-row>
       <b-col>
         <b-table
@@ -14,6 +18,9 @@
           :current-page="page"
           :busy.sync="isBusy"
         >
+          <template v-slot:cell(actions)="row">
+            <b-button variant="danger" size="sm" @click="deleteTransaction(row.item.id)">Delete</b-button>
+          </template>
         </b-table>
         <div class="d-flex justify-content-between">
           <div>
@@ -37,12 +44,14 @@
   import {mapActions, mapGetters, mapMutations} from "vuex"
 
   export default {
-    name: "App",
+    name: "Transactions",
     data() {
       return {
-        fields: ["id", "client", "amount", "time"],
+        fields: ["id", "client", "amount", "time", "actions"],
         page: this.getCurrentPage ? this.getCurrentPage : 1,
         isBusy: false,
+        error: '',
+        success: '',
       };
     },
     methods: {
@@ -52,6 +61,7 @@
       ]),
       ...mapActions('transaction', [
         'retrieveTransactions',
+        'removeTransaction',
       ]),
       transactions() {
         this.isBusy = true
@@ -64,6 +74,28 @@
             this.isBusy = false
             return []
           })
+      },
+      deleteTransaction(id) {
+        this.removeTransaction(id)
+          .then(response => {
+            this.$refs.transactions.refresh()
+            if (response.data.success) {
+              this.showSuccess(response.data.success)
+            } else if (response.data.error) { // api custom errors (200)
+              this.showError(response.data.error)
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      showError(message) {
+        this.error = message
+        setTimeout(() => this.error = '', 5000)
+      },
+      showSuccess(message) {
+        this.success = message
+        setTimeout(() => this.success = '', 2000)
       },
     },
     computed: {

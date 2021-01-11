@@ -85,10 +85,10 @@
         this.updateClient({id: this.id, data: formData})
           .then(response => {
 
-            if (response.data.success) { // api custom errors (200)
+            if (response.data.success) {
               this.showSuccess(response.data.success)
               this.resetFile()
-            } else if (response.data.error) {
+            } else if (response.data.error) { // api custom errors (200)
               this.showError(response.data.error)
             }
           })
