@@ -12,19 +12,19 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">First name</label>
           <div class="col-sm-9">
-            <input type="text" v-model="first_name" class="form-control" placeholder="First name">
+            <input type="text" ref="first_name" v-model="first_name" class="form-control" placeholder="First name">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Last name</label>
           <div class="col-sm-9">
-            <input type="text" v-model="last_name" class="form-control" placeholder="Last name">
+            <input type="text" ref="last_name" v-model="last_name" class="form-control" placeholder="Last name">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label">Email</label>
           <div class="col-sm-9">
-            <input type="email" v-model="email" class="form-control" placeholder="Email">
+            <input type="email" ref="email" v-model="email" class="form-control" placeholder="Email">
           </div>
         </div>
         <div class="form-group row">
@@ -81,7 +81,7 @@
           return
         }
         let formData = this.getFormData()
-
+        this.error = ''
         this.updateClient({id: this.id, data: formData})
           .then(response => {
 

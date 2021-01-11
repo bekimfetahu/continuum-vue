@@ -65,11 +65,16 @@ export default {
     retrieveClients({commit, rootGetters}, page) {
 
       return new Promise((resolve, reject) => {
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
         const route = '/clients?page=' + page
 
-        axios.get(route).then(response => {
+        axios.get(route, headers).then(response => {
           commit('setClients', response.data.data)
-          commit('setCurrentPage',response.data.pagination.current_page)
+          commit('setCurrentPage', response.data.pagination.current_page)
           commit('setTotal', response.data.pagination.total)
           commit('setPerPage', response.data.pagination.per_page)
           commit('setAvatarPath', response.data.avatar_path)
@@ -79,11 +84,16 @@ export default {
         })
       })
     },
-    removeClient({commit, rootGetters}, clientId) {
+    removeClient({commit, getters, rootGetters}, clientId) {
 
       return new Promise((resolve, reject) => {
         const route = '/clients/' + clientId
-        axios.post(route, {_method: 'DELETE'}).then(response => {
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.post(route, {_method: 'DELETE'}, headers).then(response => {
           commit('deleteClient', clientId)
           resolve(response)
         }).catch(error => {
@@ -92,9 +102,15 @@ export default {
       })
     },
     retrieveClient({commit, rootGetters}, clientId) {
+
       return new Promise((resolve, reject) => {
         const route = '/clients/' + clientId
-        axios.get(route).then(response => {
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.get(route, headers).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -105,7 +121,12 @@ export default {
 
       return new Promise((resolve, reject) => {
         const route = '/clients'
-        axios.post(route, data).then(response => {
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.post(route, data, headers).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -115,8 +136,13 @@ export default {
     updateClient({commit, rootGetters}, post) {
 
       return new Promise((resolve, reject) => {
-        const route = '/clients/'+post.id
-        axios.post(route, post.data).then(response => {
+        const route = '/clients/' + post.id
+        const headers = {
+          headers: {
+            "Authorization": 'Bearer ' + rootGetters['auth/token']
+          }
+        }
+        axios.post(route, post.data, headers).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

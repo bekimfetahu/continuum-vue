@@ -14,7 +14,7 @@ export const clientForm = {
   },
   methods: {
     getFormData: function () {
-      console.log('getting data')
+
       let formData = new FormData();
 
       if (this.file) {  // when action update, this will be optional
